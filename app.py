@@ -15,7 +15,7 @@ schema_get_captcha = {
 }
 app = FastAPI()
 async def main():
-   return {"say":schema_get_captcha}
+   return {"say":"hola"}
 
 #if __name__ == "__main__":
 #    asyncio.run(main())
