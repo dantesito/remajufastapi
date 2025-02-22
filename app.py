@@ -104,9 +104,6 @@ app = Flask(__name__)
 @app.route('/')
 async def hello_world():
     
-
-    print("🔗 Hooks Example: Demonstrating recommended usage")
-
     # 1) Configure the browser
     browser_config = BrowserConfig(
         headless=True,
@@ -115,50 +112,52 @@ async def hello_world():
 
     # 2) Configure the crawler run
     strategy = JsonCssExtractionStrategy(schema_get_captcha)
+    #js_code = 'document.querySelector(".ui-inputgroup .captcha-img-fix").src'#diseñado para realizar acciones
+
     crawler_run_config = CrawlerRunConfig(
         #js_code="window.scrollTo(0, document.body.scrollHeight);",
         #wait_for="body",
         extraction_strategy=strategy,
         cache_mode=CacheMode.BYPASS,
-        screenshot=True,
+        #screenshot=True,
+        
 
     )
+    
 
     # 3) Create the crawler instance
     crawler = AsyncWebCrawler(config=browser_config)
-
-    
-
+    await crawler.start()
     # 4) Run the crawler on an example page
     url = "https://remaju.pj.gob.pe/remaju/pages/seguridad/login.xhtml"
     result = await crawler.arun(url, config=crawler_run_config)
 
     if result.success:
-        print("\nCrawled URL:", result.url)
-        news_teasers = json.loads(result.extracted_content)
+        #print("\nCrawled URL:", result.extracted_content)
+        news_teasers = result.markdown
         print(news_teasers)
-        #print(f"Successfully extracted {len(news_teasers)} news teasers")
-        #imagen64 = news_teasers[0]
-        #print(imagen64)
-        #image_bytes = base64_to_image(imagen64['src'])
-        # Create an image from bytes
-        #img = create_image_from_bytes(image_bytes)
-        # Display or save the image as needed
-        #img.show()
-        #img.save("output_image.jpg")
-        #print(detect_text('output_image.jpg'))
-        #______#
-        #print(result.markdown)
-        #if result.screenshot:
-        #    with open("result.png", "wb") as f:
-        #        f.write(b64decode(result.screenshot))
+            #print(f"Successfully extracted {len(news_teasers)} news teasers")
+            #imagen64 = news_teasers[0]
+            #print(imagen64)
+            #image_bytes = base64_to_image(imagen64['src'])
+            # Create an image from bytes
+            #img = create_image_from_bytes(image_bytes)
+            # Display or save the image as needed
+            #img.show()
+            #img.save("output_image.jpg")
+            #print(detect_text('output_image.jpg'))
+            #______#
+            #print(result.markdown)
+            #if result.screenshot:
+            #    with open("result.png", "wb") as f:
+            #        f.write(b64decode(result.screenshot))
 
     else:
-        print("Error:", result.error_message)
+            print("Error:", result.error_message)
 
     await crawler.close()
-    data = json.loads(result.extracted_content)
-    return data
+
+    return {"jo":"der"}
 
 
 if __name__ == "__main__":
