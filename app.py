@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask
 from crawl4ai import AsyncWebCrawler, BrowserConfig, CrawlerRunConfig, CacheMode
 from crawl4ai.extraction_strategy import JsonCssExtractionStrategy
 from base64 import b64decode
@@ -22,7 +22,7 @@ def find_open_port():
     return port
 
 schema_get_captcha = {
-    "name": "lista productos",
+    "name": "captcha",
     "baseSelector": ".product-item",
     "fields": [
 
@@ -77,9 +77,11 @@ async def hello_world():
     async def on_page_context_created(page: Page, context: BrowserContext, **kwargs):
         # Called right after a new page + context are created (ideal for auth or route config).
         print("[HOOK] on_page_context_created - Setting up page & context.")
-        await page.goto("https://www.scrapingcourse.com/login")
-        await page.fill("input[name='email']", "admin@example.com")
-        await page.fill("input[name='password']", "password")
+        await page.goto("https://remaju.pj.gob.pe/remaju/pages/seguridad/login.xhtml")
+        await page.click('.ui-corner-left')
+        await page.fill('.ui-inputtext', "191543")
+        await page.fill('.ui-password', "Messenger2")
+        await page.fill('.captcha-input', "Messenger2")
         await page.click("button[type='submit']")
         await page.wait_for_selector("#page-title")
 
