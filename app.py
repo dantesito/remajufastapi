@@ -134,7 +134,7 @@ async def hello_world():
 
     if result.success:
         #print("\nCrawled URL:", result.extracted_content)
-        news_teasers = result.markdown
+        news_teasers = result.extracted_content
         print(news_teasers)
             #print(f"Successfully extracted {len(news_teasers)} news teasers")
             #imagen64 = news_teasers[0]
