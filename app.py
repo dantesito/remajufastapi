@@ -1,5 +1,4 @@
 from flask import Flask, request
-from flask import Flask, request
 from crawl4ai import AsyncWebCrawler, BrowserConfig, CrawlerRunConfig, CacheMode
 from crawl4ai.extraction_strategy import JsonCssExtractionStrategy
 from base64 import b64decode
